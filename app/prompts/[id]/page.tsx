@@ -15,9 +15,15 @@ export default async function View({ params }: Props) {
     cache: "no-store",
   }
 );
+  if (!res.ok) {
+  throw new Error("Failed to fetch prompt")
+}
   const data = await res.json()
   console.log(data);
   const prompt = data.getAPrompts
+  if (!prompt) {
+  return <div>Prompt not found</div>
+}
 
   return (
 

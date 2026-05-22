@@ -8,7 +8,8 @@ export default async function Edit({ params }: Props) {
 
   const { id } = await params;
 
-  const baseURL = "http://192.168.1.2:3000";
+  const baseURL =
+    process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3001";
 
   const res = await fetch(
     `${baseURL}/api/prompts/${id}`,

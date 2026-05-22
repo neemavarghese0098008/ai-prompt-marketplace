@@ -10,7 +10,7 @@ export default async function View({ params }: Props) {
   const { id } = await params
   console.log(id);
   const res = await fetch(
-  `${process.env.NEXT_PUBLIC_BASE_URL}/api/prompts/${id}`,
+  `https://ai-prompt-marketplace-56vbiiwxv-neemavarghese0098008s-projects.vercel.app/api/prompts/${id}`,
   {
     cache: "no-store",
   }

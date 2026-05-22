@@ -215,7 +215,11 @@ export default async function View({ params }: Props) {
                 fontSize: "16px",
               }}
             >
-              {new Date(prompt.createdAt).toLocaleDateString()}
+              {
+  prompt.createdAt
+    ? new Date(prompt.createdAt).toLocaleDateString()
+    : "No date"
+}
             </p>
 
           </div>
@@ -228,7 +232,7 @@ export default async function View({ params }: Props) {
             }}
           >
 
-            <Link href={`/prompts/edit/${prompt._id}`}>
+            <Link href={`/prompts/edit/${prompt._id || id}`}>
               <button
                 style={{
                   border: "1px solid #f9a8d4",

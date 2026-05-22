@@ -1,5 +1,8 @@
-
 import Link from "next/link";
+
+import { connectionDB } from "@/lib/db";
+import Prompt from "@/models/prompt";
+
 type Props = {
   params: Promise<{
     id: string;
@@ -10,19 +13,11 @@ export default async function View({ params }: Props) {
 
   const { id } = await params;
 
-  const baseUrl =
-    process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3001";
+  // connect mongodb
+  await connectionDB();
 
-  const res = await fetch(
-    `${baseUrl}/api/prompts/${id}`,
-    {
-      cache: "no-store",
-    }
-  );
-
-  const data = await res.json();
-
-  const prompt = data.getAPrompts;
+  // get prompt directly
+  const prompt = await Prompt.findById(id);
 
   if (!prompt) {
     return (
@@ -37,7 +32,6 @@ export default async function View({ params }: Props) {
 
       <div className="bg-white shadow-2xl rounded-3xl w-full max-w-3xl p-10 border border-gray-200">
 
-        {/* Heading */}
         <div className="mb-8">
           <h1 className="text-4xl font-bold text-[#1e3a5f] mb-2">
             View Prompt
@@ -48,7 +42,6 @@ export default async function View({ params }: Props) {
           </p>
         </div>
 
-        {/* Title */}
         <div className="mb-6">
           <label className="block text-lg font-semibold text-gray-700 mb-2">
             Prompt Title
@@ -59,7 +52,6 @@ export default async function View({ params }: Props) {
           </div>
         </div>
 
-        {/* Description */}
         <div className="mb-6">
           <label className="block text-lg font-semibold text-gray-700 mb-2">
             Description
@@ -70,7 +62,6 @@ export default async function View({ params }: Props) {
           </div>
         </div>
 
-        {/* Category */}
         <div className="mb-6">
           <label className="block text-lg font-semibold text-gray-700 mb-2">
             Category
@@ -81,7 +72,6 @@ export default async function View({ params }: Props) {
           </div>
         </div>
 
-        {/* Prompt Text */}
         <div className="mb-8">
           <label className="block text-lg font-semibold text-gray-700 mb-2">
             Prompt Text
@@ -92,12 +82,10 @@ export default async function View({ params }: Props) {
           </div>
         </div>
 
-        {/* Buttons */}
         <div className="flex gap-4">
 
           <Link
-       href={`/prompts/edit/${prompt._id}`}
-
+            href={`/prompts/edit/${prompt._id}`}
             className="bg-blue-600 hover:bg-blue-700 transition-all duration-300 text-white px-6 py-3 rounded-xl font-semibold"
           >
             Edit Prompt

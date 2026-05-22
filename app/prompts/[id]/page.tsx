@@ -6,10 +6,15 @@ type Props = {
 }
 
 export default async function View({ params }: Props) {
-  const BASE_URL = "http://localhost:3000"
+ 
   const { id } = await params
   console.log(id);
-  const res = await fetch(`${BASE_URL}/api/prompts/${id}`)
+  const res = await fetch(
+  `${process.env.NEXT_PUBLIC_BASE_URL}/api/prompts/${id}`,
+  {
+    cache: "no-store",
+  }
+);
   const data = await res.json()
   console.log(data);
   const prompt = data.getAPrompts
